@@ -1,5 +1,50 @@
 # Changelog
 
+## \[1.0.0-rc.5]
+
+- Added `updater_target` method to the `Builder` struct.
+  - [579312f8](https://www.github.com/tauri-apps/tauri/commit/579312f834f08dca15e51e4f43c1d0bb65b54a51) feat(updater): separate intel and apple silicon targets, closes [#3359](https://www.github.com/tauri-apps/tauri/pull/3359) ([#3739](https://www.github.com/tauri-apps/tauri/pull/3739)) on 2022-03-23
+- Use asynchronous file dialog on macOS and Windows to properly set the parent window.
+  - [bf89a05f](https://www.github.com/tauri-apps/tauri/commit/bf89a05fcfef976886a833b24346e010fd1bd06c) fix(core): dialog parent window on macOS, closes [#3312](https://www.github.com/tauri-apps/tauri/pull/3312) ([#3753](https://www.github.com/tauri-apps/tauri/pull/3753)) on 2022-03-23
+- The `Error` enum is now `Send + Sync`.
+  - [da1e8793](https://www.github.com/tauri-apps/tauri/commit/da1e879358895f7b190b1c1b20d23da23666a74b) feat(core): improve and cleanup the `Error` enum ([#3748](https://www.github.com/tauri-apps/tauri/pull/3748)) on 2022-03-22
+- Properly apply the CSP when loading a route that fallbacks to index.html.
+  - [bcd43168](https://www.github.com/tauri-apps/tauri/commit/bcd43168a528dc4c54e28788430a93654c8fb452) fix(core): properly add CSP header to fallback routes ([#3641](https://www.github.com/tauri-apps/tauri/pull/3641)) on 2022-03-08
+- Fix CSP usage on Linux when changing it via the `on_web_resource_request` handler.
+  - [f5efc248](https://www.github.com/tauri-apps/tauri/commit/f5efc248da511e0924c9673b947d5de7ef69ac45) fix(core): runtime CSP changes on Linux on 2022-03-07
+- **Breaking change:** The `Window::hwnd` method now returns *HWND* from `windows-rs` crate instead of *c_void* on Windows.
+  - [4e807a53](https://www.github.com/tauri-apps/tauri/commit/4e807a53e2d6d3f3cd5293d90013d5cdded5454e) Support window parenting on macOS, closes [#3751](https://www.github.com/tauri-apps/tauri/pull/3751) ([#3754](https://www.github.com/tauri-apps/tauri/pull/3754)) on 2022-03-23
+- Support window parenting on macOS
+  - [4e807a53](https://www.github.com/tauri-apps/tauri/commit/4e807a53e2d6d3f3cd5293d90013d5cdded5454e) Support window parenting on macOS, closes [#3751](https://www.github.com/tauri-apps/tauri/pull/3751) ([#3754](https://www.github.com/tauri-apps/tauri/pull/3754)) on 2022-03-23
+- **Breaking change:** The updater default targets have been renamed to include better support for different architectures.
+  - [579312f8](https://www.github.com/tauri-apps/tauri/commit/579312f834f08dca15e51e4f43c1d0bb65b54a51) feat(updater): separate intel and apple silicon targets, closes [#3359](https://www.github.com/tauri-apps/tauri/pull/3359) ([#3739](https://www.github.com/tauri-apps/tauri/pull/3739)) on 2022-03-23
+- **Breaking change:** The `tauri://` events are no longer emitted to listeners using `Window::listen`. Use the `App::run` closure, `Window::on_window_event` and `Window::on_menu_event` instead.
+  - [5d538ec2](https://www.github.com/tauri-apps/tauri/commit/5d538ec27c246274df4ff5b8057ff78b6364a43f) refactor(core): use the event loop proxy to send updater events ([#3687](https://www.github.com/tauri-apps/tauri/pull/3687)) on 2022-03-15
+- The `App::setup` closure can now return a boxed error directly.
+  - [da1e8793](https://www.github.com/tauri-apps/tauri/commit/da1e879358895f7b190b1c1b20d23da23666a74b) feat(core): improve and cleanup the `Error` enum ([#3748](https://www.github.com/tauri-apps/tauri/pull/3748)) on 2022-03-22
+- Implement `Debug` for `tauri::State`.
+  - [0b49dd56](https://www.github.com/tauri-apps/tauri/commit/0b49dd566dae21c4dcb1cf110115aab982a7dab6) impl Debug for State closes [#3676](https://www.github.com/tauri-apps/tauri/pull/3676) ([#3677](https://www.github.com/tauri-apps/tauri/pull/3677)) on 2022-03-12
+- **Breaking change:** The `Manager::manage` function now returns a bool indicating whether the type is already managed or not.
+  - [263b45e1](https://www.github.com/tauri-apps/tauri/commit/263b45e1b4e72d6c99fc27e41d0c5e1d134f363b) refactor(core): return boolean on `Manager::manage` ([#3682](https://www.github.com/tauri-apps/tauri/pull/3682)) on 2022-03-13
+- Set the `Access-Control-Allow-Origin` header on the `tauri` protocol response with the initial webview URL as value.
+  - [1730b1a5](https://www.github.com/tauri-apps/tauri/commit/1730b1a51d1220e6c6a2eec405a3830cc3878224) feat(core): enable CORS on the tauri protocol ([#3750](https://www.github.com/tauri-apps/tauri/pull/3750)) on 2022-03-22
+- **Breaking change:** The `tauri_runtime` crate is no longer exported since its API is not stable.
+  - [1099a969](https://www.github.com/tauri-apps/tauri/commit/1099a9696e6639b46d736f8f3b446d2dfc4ef2f0) refactor(core): do not export `tauri_runtime` on `tauri` ([#3749](https://www.github.com/tauri-apps/tauri/pull/3749)) on 2022-03-22
+- Added `Temp` to the `BaseDirectory` enum.
+  - [266156a0](https://www.github.com/tauri-apps/tauri/commit/266156a0b08150b21140dd552c8bc252fe413cdd) feat(core): add `BaseDirectory::Temp` and `$TEMP` variable ([#3763](https://www.github.com/tauri-apps/tauri/pull/3763)) on 2022-03-24
+- Added `$TEMP` to the allowed variables to the filesystem and asset protocol scopes.
+  - [266156a0](https://www.github.com/tauri-apps/tauri/commit/266156a0b08150b21140dd552c8bc252fe413cdd) feat(core): add `BaseDirectory::Temp` and `$TEMP` variable ([#3763](https://www.github.com/tauri-apps/tauri/pull/3763)) on 2022-03-24
+- Added `check_for_updates` method to `App` and `AppHandle`.
+  - [4094494a](https://www.github.com/tauri-apps/tauri/commit/4094494a1b3125bf01676dabaa69e56cc8741d59) feat(core): add API to manually trigger updater check ([#3712](https://www.github.com/tauri-apps/tauri/pull/3712)) on 2022-03-17
+- Added download progress events to the updater.
+  - [f0db3f9b](https://www.github.com/tauri-apps/tauri/commit/f0db3f9b8357dc304a8254426034c4d1733fbd45) feat(updater): add download progress events ([#3734](https://www.github.com/tauri-apps/tauri/pull/3734)) on 2022-03-18
+- Send updater events to the `App::run` closure.
+  - [5d538ec2](https://www.github.com/tauri-apps/tauri/commit/5d538ec27c246274df4ff5b8057ff78b6364a43f) refactor(core): use the event loop proxy to send updater events ([#3687](https://www.github.com/tauri-apps/tauri/pull/3687)) on 2022-03-15
+- Run the updater on startup even if no window was created.
+  - [c4ca80f9](https://www.github.com/tauri-apps/tauri/commit/c4ca80f919551cbcae53d931f860115c2d591d14) feat(core): use AppHandle instead of Window on the updater logic ([#3702](https://www.github.com/tauri-apps/tauri/pull/3702)) on 2022-03-15
+- Added the `WindowEvent::FileDrop` variant.
+  - [07d1584c](https://www.github.com/tauri-apps/tauri/commit/07d1584cf06ea326aa45d8044bee1b77ecba5006) feat(core): add `WindowEvent::FileDrop`, closes [#3664](https://www.github.com/tauri-apps/tauri/pull/3664) ([#3686](https://www.github.com/tauri-apps/tauri/pull/3686)) on 2022-03-13
+
 ## \[1.0.0-rc.4]
 
 - Run `AppHandle` cleanup code before restarting the application on the `process > relaunch` API.
